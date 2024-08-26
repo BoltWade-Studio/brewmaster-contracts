@@ -1,0 +1,65 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x3f63cecdc4964acafb921ba2934c6507d1b3c344edb64c2762cf08053169ab9"
+original_class_hash = "0x3f63cecdc4964acafb921ba2934c6507d1b3c344edb64c2762cf08053169ab9"
+abi = "manifests/dev/abis/deployments/dojo_world_world.json"
+address = "0x354caaf9bd19f0a44a3d9301458f404fad4b676bd3f879c09b215c5ec66418b"
+transaction_hash = "0x338bc7fe1984f2fe8aa8ada6a203bee5a23a4cf9222b98d914cc2b2ac132294"
+block_number = 3
+seed = "brewmaster"
+name = "dojo::world::world"
+
+[world.metadata]
+profile_name = "dev"
+rpc_url = "http://localhost:5050/"
+
+[base]
+kind = "Class"
+class_hash = "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46"
+original_class_hash = "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46"
+name = "dojo::base::base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x76f7bf89ee554e8e182be67600e006fc543339f6074d04ce5c86515525539bd"
+class_hash = "0xee5de6250011781c7a1830c1858604cde38e4533eb408f9980b92955861406"
+original_class_hash = "0xee5de6250011781c7a1830c1858604cde38e4533eb408f9980b92955861406"
+base_class_hash = "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46"
+abi = "manifests/dev/abis/deployments/contracts/brewmaster_systems_actions_Brewmaster.json"
+reads = []
+writes = []
+computed = []
+init_calldata = []
+name = "brewmaster::systems::actions::Brewmaster"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2d6a36bd1a77cacc61a29a32434bcf96a7924d99a6e775e87e9ee7382917c03"
+original_class_hash = "0x2d6a36bd1a77cacc61a29a32434bcf96a7924d99a6e775e87e9ee7382917c03"
+abi = "manifests/dev/abis/deployments/models/brewmaster_models_brewpub_brew_pub_struct.json"
+name = "brewmaster::models::brewpub::brew_pub_struct"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "scale"
+type = "Array<PubScaleStruct>"
+key = false
+
+[[models.members]]
+name = "treasury"
+type = "u256"
+key = false
+
+[[models.members]]
+name = "points"
+type = "u256"
+key = false
+
+[[models.members]]
+name = "createAt"
+type = "u64"
+key = false

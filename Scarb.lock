@@ -2,21 +2,21 @@
 version = 1
 
 [[package]]
+name = "brewmaster"
+version = "0.1.0"
+dependencies = [
+ "dojo",
+]
+
+[[package]]
 name = "dojo"
-version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.6#ede7930735c708572af8a87f81bb76354a401b3a"
+version = "0.7.3"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.7.4#e8cf2361bf5bcdd58642ea9b6e33c983cf5b20ac"
 dependencies = [
  "dojo_plugin",
 ]
 
 [[package]]
 name = "dojo_plugin"
-version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?rev=f15def33#f15def330c0d099e79351d11c197f63e8cc1ff36"
-
-[[package]]
-name = "dojo_starter"
-version = "0.1.0"
-dependencies = [
- "dojo",
-]
+version = "0.4.1"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.7.2#3da5cad9fdd39b81551e0668015d88262e6c5fc4"

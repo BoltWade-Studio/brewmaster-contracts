@@ -2,7 +2,7 @@
   {
     "type": "impl",
     "name": "World",
-    "interface_name": "dojo::world::world_contract::IWorld"
+    "interface_name": "dojo::world::IWorld"
   },
   {
     "type": "struct",
@@ -24,7 +24,7 @@
   },
   {
     "type": "struct",
-    "name": "dojo::model::metadata::ResourceMetadata",
+    "name": "dojo::resource_metadata::ResourceMetadata",
     "members": [
       {
         "name": "resource_id",
@@ -47,24 +47,6 @@
     ]
   },
   {
-    "type": "enum",
-    "name": "dojo::model::model::ModelIndex",
-    "variants": [
-      {
-        "name": "Keys",
-        "type": "core::array::Span::<core::felt252>"
-      },
-      {
-        "name": "Id",
-        "type": "core::felt252"
-      },
-      {
-        "name": "MemberId",
-        "type": "(core::felt252, core::felt252)"
-      }
-    ]
-  },
-  {
     "type": "struct",
     "name": "core::array::Span::<core::integer::u8>",
     "members": [
@@ -76,7 +58,7 @@
   },
   {
     "type": "struct",
-    "name": "dojo::model::layout::FieldLayout",
+    "name": "dojo::database::introspect::FieldLayout",
     "members": [
       {
         "name": "selector",
@@ -84,33 +66,33 @@
       },
       {
         "name": "layout",
-        "type": "dojo::model::layout::Layout"
+        "type": "dojo::database::introspect::Layout"
       }
     ]
   },
   {
     "type": "struct",
-    "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+    "name": "core::array::Span::<dojo::database::introspect::FieldLayout>",
     "members": [
       {
         "name": "snapshot",
-        "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+        "type": "@core::array::Array::<dojo::database::introspect::FieldLayout>"
       }
     ]
   },
   {
     "type": "struct",
-    "name": "core::array::Span::<dojo::model::layout::Layout>",
+    "name": "core::array::Span::<dojo::database::introspect::Layout>",
     "members": [
       {
         "name": "snapshot",
-        "type": "@core::array::Array::<dojo::model::layout::Layout>"
+        "type": "@core::array::Array::<dojo::database::introspect::Layout>"
       }
     ]
   },
   {
     "type": "enum",
-    "name": "dojo::model::layout::Layout",
+    "name": "dojo::database::introspect::Layout",
     "variants": [
       {
         "name": "Fixed",
@@ -118,15 +100,15 @@
       },
       {
         "name": "Struct",
-        "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+        "type": "core::array::Span::<dojo::database::introspect::FieldLayout>"
       },
       {
         "name": "Tuple",
-        "type": "core::array::Span::<dojo::model::layout::Layout>"
+        "type": "core::array::Span::<dojo::database::introspect::Layout>"
       },
       {
         "name": "Array",
-        "type": "core::array::Span::<dojo::model::layout::Layout>"
+        "type": "core::array::Span::<dojo::database::introspect::Layout>"
       },
       {
         "name": "ByteArray",
@@ -134,33 +116,7 @@
       },
       {
         "name": "Enum",
-        "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
-      }
-    ]
-  },
-  {
-    "type": "enum",
-    "name": "dojo::world::world_contract::Resource",
-    "variants": [
-      {
-        "name": "Model",
-        "type": "(core::starknet::class_hash::ClassHash, core::starknet::contract_address::ContractAddress)"
-      },
-      {
-        "name": "Contract",
-        "type": "(core::starknet::class_hash::ClassHash, core::starknet::contract_address::ContractAddress)"
-      },
-      {
-        "name": "Namespace",
-        "type": "()"
-      },
-      {
-        "name": "World",
-        "type": "()"
-      },
-      {
-        "name": "Unregistered",
-        "type": "()"
+        "type": "core::array::Span::<dojo::database::introspect::FieldLayout>"
       }
     ]
   },
@@ -180,20 +136,20 @@
   },
   {
     "type": "interface",
-    "name": "dojo::world::world_contract::IWorld",
+    "name": "dojo::world::IWorld",
     "items": [
       {
         "type": "function",
         "name": "metadata",
         "inputs": [
           {
-            "name": "resource_selector",
+            "name": "resource_id",
             "type": "core::felt252"
           }
         ],
         "outputs": [
           {
-            "type": "dojo::model::metadata::ResourceMetadata"
+            "type": "dojo::resource_metadata::ResourceMetadata"
           }
         ],
         "state_mutability": "view"
@@ -204,7 +160,7 @@
         "inputs": [
           {
             "name": "metadata",
-            "type": "dojo::model::metadata::ResourceMetadata"
+            "type": "dojo::resource_metadata::ResourceMetadata"
           }
         ],
         "outputs": [],
@@ -212,31 +168,23 @@
       },
       {
         "type": "function",
-        "name": "register_namespace",
+        "name": "model",
         "inputs": [
           {
-            "name": "namespace",
-            "type": "core::byte_array::ByteArray"
+            "name": "selector",
+            "type": "core::felt252"
           }
         ],
-        "outputs": [],
-        "state_mutability": "external"
+        "outputs": [
+          {
+            "type": "(core::starknet::class_hash::ClassHash, core::starknet::contract_address::ContractAddress)"
+          }
+        ],
+        "state_mutability": "view"
       },
       {
         "type": "function",
         "name": "register_model",
-        "inputs": [
-          {
-            "name": "class_hash",
-            "type": "core::starknet::class_hash::ClassHash"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "upgrade_model",
         "inputs": [
           {
             "name": "class_hash",
@@ -257,6 +205,10 @@
           {
             "name": "class_hash",
             "type": "core::starknet::class_hash::ClassHash"
+          },
+          {
+            "name": "init_calldata",
+            "type": "core::array::Span::<core::felt252>"
           }
         ],
         "outputs": [
@@ -271,8 +223,8 @@
         "name": "upgrade_contract",
         "inputs": [
           {
-            "name": "selector",
-            "type": "core::felt252"
+            "name": "address",
+            "type": "core::starknet::contract_address::ContractAddress"
           },
           {
             "name": "class_hash",
@@ -284,22 +236,6 @@
             "type": "core::starknet::class_hash::ClassHash"
           }
         ],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "init_contract",
-        "inputs": [
-          {
-            "name": "selector",
-            "type": "core::felt252"
-          },
-          {
-            "name": "init_calldata",
-            "type": "core::array::Span::<core::felt252>"
-          }
-        ],
-        "outputs": [],
         "state_mutability": "external"
       },
       {
@@ -334,16 +270,16 @@
         "name": "entity",
         "inputs": [
           {
-            "name": "model_selector",
+            "name": "model",
             "type": "core::felt252"
           },
           {
-            "name": "index",
-            "type": "dojo::model::model::ModelIndex"
+            "name": "keys",
+            "type": "core::array::Span::<core::felt252>"
           },
           {
             "name": "layout",
-            "type": "dojo::model::layout::Layout"
+            "type": "dojo::database::introspect::Layout"
           }
         ],
         "outputs": [
@@ -358,12 +294,12 @@
         "name": "set_entity",
         "inputs": [
           {
-            "name": "model_selector",
+            "name": "model",
             "type": "core::felt252"
           },
           {
-            "name": "index",
-            "type": "dojo::model::model::ModelIndex"
+            "name": "keys",
+            "type": "core::array::Span::<core::felt252>"
           },
           {
             "name": "values",
@@ -371,7 +307,7 @@
           },
           {
             "name": "layout",
-            "type": "dojo::model::layout::Layout"
+            "type": "dojo::database::introspect::Layout"
           }
         ],
         "outputs": [],
@@ -382,16 +318,16 @@
         "name": "delete_entity",
         "inputs": [
           {
-            "name": "model_selector",
+            "name": "model",
             "type": "core::felt252"
           },
           {
-            "name": "index",
-            "type": "dojo::model::model::ModelIndex"
+            "name": "keys",
+            "type": "core::array::Span::<core::felt252>"
           },
           {
             "name": "layout",
-            "type": "dojo::model::layout::Layout"
+            "type": "dojo::database::introspect::Layout"
           }
         ],
         "outputs": [],
@@ -410,31 +346,15 @@
       },
       {
         "type": "function",
-        "name": "resource",
-        "inputs": [
-          {
-            "name": "selector",
-            "type": "core::felt252"
-          }
-        ],
-        "outputs": [
-          {
-            "type": "dojo::world::world_contract::Resource"
-          }
-        ],
-        "state_mutability": "view"
-      },
-      {
-        "type": "function",
         "name": "is_owner",
         "inputs": [
           {
-            "name": "resource",
-            "type": "core::felt252"
-          },
-          {
             "name": "address",
             "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "resource",
+            "type": "core::felt252"
           }
         ],
         "outputs": [
@@ -449,12 +369,12 @@
         "name": "grant_owner",
         "inputs": [
           {
-            "name": "resource",
-            "type": "core::felt252"
-          },
-          {
             "name": "address",
             "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "resource",
+            "type": "core::felt252"
           }
         ],
         "outputs": [],
@@ -465,12 +385,12 @@
         "name": "revoke_owner",
         "inputs": [
           {
-            "name": "resource",
-            "type": "core::felt252"
-          },
-          {
             "name": "address",
             "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "resource",
+            "type": "core::felt252"
           }
         ],
         "outputs": [],
@@ -481,7 +401,7 @@
         "name": "is_writer",
         "inputs": [
           {
-            "name": "resource",
+            "name": "model",
             "type": "core::felt252"
           },
           {
@@ -501,7 +421,7 @@
         "name": "grant_writer",
         "inputs": [
           {
-            "name": "resource",
+            "name": "model",
             "type": "core::felt252"
           },
           {
@@ -517,7 +437,7 @@
         "name": "revoke_writer",
         "inputs": [
           {
-            "name": "resource",
+            "name": "model",
             "type": "core::felt252"
           },
           {
@@ -533,11 +453,11 @@
   {
     "type": "impl",
     "name": "UpgradeableWorld",
-    "interface_name": "dojo::world::world_contract::IUpgradeableWorld"
+    "interface_name": "dojo::world::IUpgradeableWorld"
   },
   {
     "type": "interface",
-    "name": "dojo::world::world_contract::IUpgradeableWorld",
+    "name": "dojo::world::IUpgradeableWorld",
     "items": [
       {
         "type": "function",
@@ -556,11 +476,11 @@
   {
     "type": "impl",
     "name": "UpgradeableState",
-    "interface_name": "dojo::world::update::IUpgradeableState"
+    "interface_name": "dojo::interfaces::IUpgradeableState"
   },
   {
     "type": "struct",
-    "name": "dojo::world::update::StorageUpdate",
+    "name": "dojo::interfaces::StorageUpdate",
     "members": [
       {
         "name": "key",
@@ -574,17 +494,17 @@
   },
   {
     "type": "struct",
-    "name": "core::array::Span::<dojo::world::update::StorageUpdate>",
+    "name": "core::array::Span::<dojo::interfaces::StorageUpdate>",
     "members": [
       {
         "name": "snapshot",
-        "type": "@core::array::Array::<dojo::world::update::StorageUpdate>"
+        "type": "@core::array::Array::<dojo::interfaces::StorageUpdate>"
       }
     ]
   },
   {
     "type": "struct",
-    "name": "dojo::world::update::ProgramOutput",
+    "name": "dojo::interfaces::ProgramOutput",
     "members": [
       {
         "name": "prev_state_root",
@@ -622,7 +542,7 @@
   },
   {
     "type": "interface",
-    "name": "dojo::world::update::IUpgradeableState",
+    "name": "dojo::interfaces::IUpgradeableState",
     "items": [
       {
         "type": "function",
@@ -630,11 +550,11 @@
         "inputs": [
           {
             "name": "new_state",
-            "type": "core::array::Span::<dojo::world::update::StorageUpdate>"
+            "type": "core::array::Span::<dojo::interfaces::StorageUpdate>"
           },
           {
             "name": "program_output",
-            "type": "dojo::world::update::ProgramOutput"
+            "type": "dojo::interfaces::ProgramOutput"
           },
           {
             "name": "program_hash",
@@ -649,11 +569,11 @@
   {
     "type": "impl",
     "name": "ConfigImpl",
-    "interface_name": "dojo::world::config::IConfig"
+    "interface_name": "dojo::config::interface::IConfig"
   },
   {
     "type": "interface",
-    "name": "dojo::world::config::IConfig",
+    "name": "dojo::config::interface::IConfig",
     "items": [
       {
         "type": "function",
@@ -738,7 +658,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::WorldSpawned",
+    "name": "dojo::world::world::WorldSpawned",
     "kind": "struct",
     "members": [
       {
@@ -755,7 +675,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::ContractDeployed",
+    "name": "dojo::world::world::ContractDeployed",
     "kind": "struct",
     "members": [
       {
@@ -772,22 +692,12 @@
         "name": "address",
         "type": "core::starknet::contract_address::ContractAddress",
         "kind": "data"
-      },
-      {
-        "name": "namespace",
-        "type": "core::byte_array::ByteArray",
-        "kind": "data"
-      },
-      {
-        "name": "name",
-        "type": "core::byte_array::ByteArray",
-        "kind": "data"
       }
     ]
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::ContractUpgraded",
+    "name": "dojo::world::world::ContractUpgraded",
     "kind": "struct",
     "members": [
       {
@@ -804,24 +714,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::ContractInitialized",
-    "kind": "struct",
-    "members": [
-      {
-        "name": "selector",
-        "type": "core::felt252",
-        "kind": "data"
-      },
-      {
-        "name": "init_calldata",
-        "type": "core::array::Span::<core::felt252>",
-        "kind": "data"
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "name": "dojo::world::world_contract::world::WorldUpgraded",
+    "name": "dojo::world::world::WorldUpgraded",
     "kind": "struct",
     "members": [
       {
@@ -833,7 +726,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::MetadataUpdate",
+    "name": "dojo::world::world::MetadataUpdate",
     "kind": "struct",
     "members": [
       {
@@ -850,60 +743,11 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::NamespaceRegistered",
-    "kind": "struct",
-    "members": [
-      {
-        "name": "namespace",
-        "type": "core::byte_array::ByteArray",
-        "kind": "data"
-      },
-      {
-        "name": "hash",
-        "type": "core::felt252",
-        "kind": "data"
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "name": "dojo::world::world_contract::world::ModelRegistered",
+    "name": "dojo::world::world::ModelRegistered",
     "kind": "struct",
     "members": [
       {
         "name": "name",
-        "type": "core::byte_array::ByteArray",
-        "kind": "data"
-      },
-      {
-        "name": "namespace",
-        "type": "core::byte_array::ByteArray",
-        "kind": "data"
-      },
-      {
-        "name": "class_hash",
-        "type": "core::starknet::class_hash::ClassHash",
-        "kind": "data"
-      },
-      {
-        "name": "address",
-        "type": "core::starknet::contract_address::ContractAddress",
-        "kind": "data"
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "name": "dojo::world::world_contract::world::ModelUpgraded",
-    "kind": "struct",
-    "members": [
-      {
-        "name": "name",
-        "type": "core::byte_array::ByteArray",
-        "kind": "data"
-      },
-      {
-        "name": "namespace",
         "type": "core::byte_array::ByteArray",
         "kind": "data"
       },
@@ -931,7 +775,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::StoreSetRecord",
+    "name": "dojo::world::world::StoreSetRecord",
     "kind": "struct",
     "members": [
       {
@@ -953,7 +797,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::StoreUpdateRecord",
+    "name": "dojo::world::world::StoreDelRecord",
     "kind": "struct",
     "members": [
       {
@@ -962,12 +806,7 @@
         "kind": "data"
       },
       {
-        "name": "entity_id",
-        "type": "core::felt252",
-        "kind": "data"
-      },
-      {
-        "name": "values",
+        "name": "keys",
         "type": "core::array::Span::<core::felt252>",
         "kind": "data"
       }
@@ -975,55 +814,11 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::StoreUpdateMember",
+    "name": "dojo::world::world::WriterUpdated",
     "kind": "struct",
     "members": [
       {
-        "name": "table",
-        "type": "core::felt252",
-        "kind": "data"
-      },
-      {
-        "name": "entity_id",
-        "type": "core::felt252",
-        "kind": "data"
-      },
-      {
-        "name": "member_selector",
-        "type": "core::felt252",
-        "kind": "data"
-      },
-      {
-        "name": "values",
-        "type": "core::array::Span::<core::felt252>",
-        "kind": "data"
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "name": "dojo::world::world_contract::world::StoreDelRecord",
-    "kind": "struct",
-    "members": [
-      {
-        "name": "table",
-        "type": "core::felt252",
-        "kind": "data"
-      },
-      {
-        "name": "entity_id",
-        "type": "core::felt252",
-        "kind": "data"
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "name": "dojo::world::world_contract::world::WriterUpdated",
-    "kind": "struct",
-    "members": [
-      {
-        "name": "resource",
+        "name": "model",
         "type": "core::felt252",
         "kind": "data"
       },
@@ -1041,7 +836,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::OwnerUpdated",
+    "name": "dojo::world::world::OwnerUpdated",
     "kind": "struct",
     "members": [
       {
@@ -1063,7 +858,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::config::Config::DifferProgramHashUpdate",
+    "name": "dojo::config::component::Config::DifferProgramHashUpdate",
     "kind": "struct",
     "members": [
       {
@@ -1075,7 +870,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::config::Config::MergerProgramHashUpdate",
+    "name": "dojo::config::component::Config::MergerProgramHashUpdate",
     "kind": "struct",
     "members": [
       {
@@ -1087,7 +882,7 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::config::Config::FactsRegistryUpdate",
+    "name": "dojo::config::component::Config::FactsRegistryUpdate",
     "kind": "struct",
     "members": [
       {
@@ -1099,29 +894,29 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::config::Config::Event",
+    "name": "dojo::config::component::Config::Event",
     "kind": "enum",
     "variants": [
       {
         "name": "DifferProgramHashUpdate",
-        "type": "dojo::world::config::Config::DifferProgramHashUpdate",
+        "type": "dojo::config::component::Config::DifferProgramHashUpdate",
         "kind": "nested"
       },
       {
         "name": "MergerProgramHashUpdate",
-        "type": "dojo::world::config::Config::MergerProgramHashUpdate",
+        "type": "dojo::config::component::Config::MergerProgramHashUpdate",
         "kind": "nested"
       },
       {
         "name": "FactsRegistryUpdate",
-        "type": "dojo::world::config::Config::FactsRegistryUpdate",
+        "type": "dojo::config::component::Config::FactsRegistryUpdate",
         "kind": "nested"
       }
     ]
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::StateUpdated",
+    "name": "dojo::world::world::StateUpdated",
     "kind": "struct",
     "members": [
       {
@@ -1133,92 +928,67 @@
   },
   {
     "type": "event",
-    "name": "dojo::world::world_contract::world::Event",
+    "name": "dojo::world::world::Event",
     "kind": "enum",
     "variants": [
       {
         "name": "WorldSpawned",
-        "type": "dojo::world::world_contract::world::WorldSpawned",
+        "type": "dojo::world::world::WorldSpawned",
         "kind": "nested"
       },
       {
         "name": "ContractDeployed",
-        "type": "dojo::world::world_contract::world::ContractDeployed",
+        "type": "dojo::world::world::ContractDeployed",
         "kind": "nested"
       },
       {
         "name": "ContractUpgraded",
-        "type": "dojo::world::world_contract::world::ContractUpgraded",
-        "kind": "nested"
-      },
-      {
-        "name": "ContractInitialized",
-        "type": "dojo::world::world_contract::world::ContractInitialized",
+        "type": "dojo::world::world::ContractUpgraded",
         "kind": "nested"
       },
       {
         "name": "WorldUpgraded",
-        "type": "dojo::world::world_contract::world::WorldUpgraded",
+        "type": "dojo::world::world::WorldUpgraded",
         "kind": "nested"
       },
       {
         "name": "MetadataUpdate",
-        "type": "dojo::world::world_contract::world::MetadataUpdate",
-        "kind": "nested"
-      },
-      {
-        "name": "NamespaceRegistered",
-        "type": "dojo::world::world_contract::world::NamespaceRegistered",
+        "type": "dojo::world::world::MetadataUpdate",
         "kind": "nested"
       },
       {
         "name": "ModelRegistered",
-        "type": "dojo::world::world_contract::world::ModelRegistered",
-        "kind": "nested"
-      },
-      {
-        "name": "ModelUpgraded",
-        "type": "dojo::world::world_contract::world::ModelUpgraded",
+        "type": "dojo::world::world::ModelRegistered",
         "kind": "nested"
       },
       {
         "name": "StoreSetRecord",
-        "type": "dojo::world::world_contract::world::StoreSetRecord",
-        "kind": "nested"
-      },
-      {
-        "name": "StoreUpdateRecord",
-        "type": "dojo::world::world_contract::world::StoreUpdateRecord",
-        "kind": "nested"
-      },
-      {
-        "name": "StoreUpdateMember",
-        "type": "dojo::world::world_contract::world::StoreUpdateMember",
+        "type": "dojo::world::world::StoreSetRecord",
         "kind": "nested"
       },
       {
         "name": "StoreDelRecord",
-        "type": "dojo::world::world_contract::world::StoreDelRecord",
+        "type": "dojo::world::world::StoreDelRecord",
         "kind": "nested"
       },
       {
         "name": "WriterUpdated",
-        "type": "dojo::world::world_contract::world::WriterUpdated",
+        "type": "dojo::world::world::WriterUpdated",
         "kind": "nested"
       },
       {
         "name": "OwnerUpdated",
-        "type": "dojo::world::world_contract::world::OwnerUpdated",
+        "type": "dojo::world::world::OwnerUpdated",
         "kind": "nested"
       },
       {
         "name": "ConfigEvent",
-        "type": "dojo::world::config::Config::Event",
+        "type": "dojo::config::component::Config::Event",
         "kind": "nested"
       },
       {
         "name": "StateUpdated",
-        "type": "dojo::world::world_contract::world::StateUpdated",
+        "type": "dojo::world::world::StateUpdated",
         "kind": "nested"
       }
     ]
