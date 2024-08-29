@@ -17,3 +17,5 @@ export OTHER_PLAYER_PK=0x14d6672dcb4b77ca36a887e9a11cd9d637d5012468175829e9c6e77
 
 # sozo execute --world <WORLD_ADDRESS> <CONTRACT> <ENTRYPOINT>
 sozo execute --world $WORLD_ADDRESS $SYSTEM_ADDRESS createPub --account-address $OTHER_PLAYER_ADDRESS --private-key $OTHER_PLAYER_PK --wait
+
+echo "Create Pub success with player $OTHER_PLAYER_ADDRESS."

@@ -60,20 +60,6 @@
   },
   {
     "type": "struct",
-    "name": "brewmaster::models::brewpub::PubScaleStruct",
-    "members": [
-      {
-        "name": "tableIndex",
-        "type": "core::integer::u16"
-      },
-      {
-        "name": "stools",
-        "type": "core::integer::u16"
-      }
-    ]
-  },
-  {
-    "type": "struct",
     "name": "core::integer::u256",
     "members": [
       {
@@ -83,6 +69,20 @@
       {
         "name": "high",
         "type": "core::integer::u128"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "brewmaster::models::brewpub::PubScaleStruct",
+    "members": [
+      {
+        "name": "tableIndex",
+        "type": "core::integer::u16"
+      },
+      {
+        "name": "stools",
+        "type": "core::integer::u16"
       }
     ]
   },
@@ -113,9 +113,55 @@
     ]
   },
   {
+    "type": "struct",
+    "name": "brewmaster::models::manager::MaxScale",
+    "members": [
+      {
+        "name": "system",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "maxTable",
+        "type": "core::integer::u16"
+      },
+      {
+        "name": "maxStool",
+        "type": "core::integer::u16"
+      }
+    ]
+  },
+  {
     "type": "interface",
     "name": "brewmaster::interfaces::IAction::IBrewmasterImpl",
     "items": [
+      {
+        "type": "function",
+        "name": "updateSystemManager",
+        "inputs": [
+          {
+            "name": "managerOfWorld",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "updateMaxScale",
+        "inputs": [
+          {
+            "name": "maxTable",
+            "type": "core::integer::u16"
+          },
+          {
+            "name": "maxStool",
+            "type": "core::integer::u16"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
       {
         "type": "function",
         "name": "createPub",
@@ -144,6 +190,30 @@
       },
       {
         "type": "function",
+        "name": "closingUpPub",
+        "inputs": [
+          {
+            "name": "treasury",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "points",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "closedAt",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "managerSignature",
+            "type": "core::array::Array::<core::felt252>"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
         "name": "getPlayerPub",
         "inputs": [
           {
@@ -154,6 +224,28 @@
         "outputs": [
           {
             "type": "brewmaster::models::brewpub::BrewPubStruct"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "getSystemManager",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "getMaxScale",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "brewmaster::models::manager::MaxScale"
           }
         ],
         "state_mutability": "view"
