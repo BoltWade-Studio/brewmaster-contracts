@@ -26,3 +26,12 @@ pub struct MaxScale {
     pub maxTable: u16,
     pub maxStool: u16,
 }
+
+#[derive(Drop, Serde)]
+#[dojo::model]
+pub struct UpgradePubPrice {
+    #[key]
+    pub system: ContractAddress,
+    pub addTablePrice: u256,
+    pub addStoolPrice: u256,
+}

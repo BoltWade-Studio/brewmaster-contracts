@@ -2,7 +2,7 @@
 mod Brewmaster {
     use core::traits::Into;
     use brewmaster::models::brewpub::{BrewPubStruct, PubScaleStruct};
-    use brewmaster::models::manager::{SystemManager, ManagerSignature, MaxScale};
+    use brewmaster::models::manager::{SystemManager, ManagerSignature, MaxScale, UpgradePubPrice};
     use brewmaster::interfaces::{
         IAction::IBrewmasterImpl, IAccount::{AccountABIDispatcher, AccountABIDispatcherTrait}
     };
@@ -17,9 +17,6 @@ mod Brewmaster {
         selector!(
             "Proof(player:ContractAddress,treasury:u256,points:u256,saltNonce:u128)u256(low:felt,high:felt)"
         );
-
-    const INIT_PRICE_INCREASE_TABLE: u256 = 200;
-    const INIT_PRICE_INCREASE_STOOL: u256 = 50;
 
     const U256_TYPE_HASH: felt252 = selector!("u256(low:felt,high:felt)");
     const STARKNET_DOMAIN_TYPE_HASH: felt252 =
@@ -102,9 +99,26 @@ mod Brewmaster {
             set!(world, (MaxScale { system: get_contract_address(), maxTable, maxStool }))
         }
 
+        fn updateUpgradePrice(
+            ref world: IWorldDispatcher, addTablePrice: u256, addStoolPrice: u256
+        ) {
+            set!(
+                world,
+                (UpgradePubPrice { system: get_contract_address(), addTablePrice, addStoolPrice })
+            )
+        }
+
         fn createPub(ref world: IWorldDispatcher) {
             let manager: SystemManager = get!(world, get_contract_address(), (SystemManager));
-            assert(manager.managerAddress.is_non_zero(), 'System not initialized.');
+            let upgradePrice: UpgradePubPrice = get!(
+                world, get_contract_address(), (UpgradePubPrice)
+            );
+            assert(
+                manager.managerAddress.is_non_zero()
+                    && upgradePrice.addTablePrice > 0
+                    && upgradePrice.addStoolPrice > 0,
+                'System not initialized.'
+            );
 
             let player = get_caller_address();
             let mut playerPub = get!(world, player, (BrewPubStruct));
@@ -149,8 +163,11 @@ mod Brewmaster {
                 *(playerPub.scale.at(tableIndex.into()).stools) < maxScale.maxStool,
                 'Table reachs maximum stool.'
             );
-            assert(playerPub.treasury >= INIT_PRICE_INCREASE_TABLE, 'Insufficience Treasury');
-            playerPub.treasury -= INIT_PRICE_INCREASE_TABLE;
+            let basePrice: u256 = get!(world, get_contract_address(), (UpgradePubPrice))
+                .addStoolPrice;
+
+            assert(playerPub.treasury >= basePrice, 'Insufficience Treasury');
+            playerPub.treasury -= basePrice;
 
             let mut newPubScale = ArrayTrait::<PubScaleStruct>::new();
             let cpPubScale = playerPub.scale.clone();
@@ -195,7 +212,10 @@ mod Brewmaster {
             assert(playerPub.scale.len() < maxScale.maxTable.into(), 'reach maximum tables.');
 
             let tableIndex: u16 = playerPub.scale.len().try_into().unwrap();
-            let price = INIT_PRICE_INCREASE_TABLE * (tableIndex.into() + 1 - 3);
+
+            let basePrice: u256 = get!(world, get_contract_address(), (UpgradePubPrice))
+                .addTablePrice;
+            let price = basePrice * (tableIndex.into() + 1 - 3);
             assert(playerPub.treasury >= price, 'Insufficience Treasury');
             playerPub.treasury -= price;
 
@@ -245,6 +265,22 @@ mod Brewmaster {
 
         fn getMaxScale(world: @IWorldDispatcher) -> MaxScale {
             get!(world, get_contract_address(), (MaxScale))
+        }
+
+        fn getPriceForAddTable(world: @IWorldDispatcher, player: ContractAddress) -> u256 {
+            let mut playerPub: BrewPubStruct = get!(world, player, (BrewPubStruct));
+            let basePrice: u256 = get!(world, get_contract_address(), (UpgradePubPrice))
+                .addTablePrice;
+            if playerPub.scale.len() == 0 {
+                return basePrice;
+            }
+
+            let newTableIndex: u16 = playerPub.scale.len().try_into().unwrap();
+            basePrice * (newTableIndex.into() + 1 - 3)
+        }
+
+        fn getPriceForAddStool(world: @IWorldDispatcher) -> u256 {
+            get!(world, get_contract_address(), (UpgradePubPrice)).addStoolPrice
         }
     }
 

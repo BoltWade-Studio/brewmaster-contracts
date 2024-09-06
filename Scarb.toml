@@ -8,7 +8,7 @@ sierra-replace-ids = true
 
 [scripts]
 migrate = "sozo build && sozo migrate apply"
-init-system = "./scripts/deploySystem.sh && ./scripts/default_auth.sh && ./scripts/updateManager.sh && ./scripts/setMaxScale.sh"
+init-system = "./scripts/deploySystem.sh && ./scripts/default_auth.sh && ./scripts/updateManager.sh && ./scripts/setMaxScale.sh && ./scripts/updatePrice.sh"
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.7.4" }

@@ -6,6 +6,7 @@ use brewmaster::models::manager::MaxScale;
 pub trait IBrewmasterImpl<TContractState> {
     fn updateSystemManager(ref world: IWorldDispatcher, managerOfWorld: ContractAddress);
     fn updateMaxScale(ref world: IWorldDispatcher, maxTable: u16, maxStool: u16);
+    fn updateUpgradePrice(ref world: IWorldDispatcher, addTablePrice: u256, addStoolPrice: u256);
     fn createPub(ref world: IWorldDispatcher);
     fn addStool(ref world: IWorldDispatcher, tableIndex: u16);
     fn addTable(ref world: IWorldDispatcher);
@@ -19,4 +20,6 @@ pub trait IBrewmasterImpl<TContractState> {
     fn getPlayerPub(world: @IWorldDispatcher, player: ContractAddress) -> BrewPubStruct;
     fn getSystemManager(world: @IWorldDispatcher) -> ContractAddress;
     fn getMaxScale(world: @IWorldDispatcher) -> MaxScale;
+    fn getPriceForAddTable(world: @IWorldDispatcher, player: ContractAddress) -> u256;
+    fn getPriceForAddStool(world: @IWorldDispatcher) -> u256;
 }
