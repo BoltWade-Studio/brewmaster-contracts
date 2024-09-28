@@ -28,7 +28,7 @@ echo world : $WORLD_ADDRESS
 echo "---------------------------------------------------------------------------"
 
 # enable system -> models authorizations
-sozo auth grant --world $WORLD_ADDRESS --account-address $OWNER_ADDRESS --private-key $OWNER_PK --wait writer \
+sozo auth grant --world $WORLD_ADDRESS --rpc-url $RPC_URL --account-address $OWNER_ADDRESS --private-key $OWNER_PK --wait writer \
   BrewPubStruct,brewmaster::systems::actions::Brewmaster\
   ManagerSignature,brewmaster::systems::actions::Brewmaster\
   >/dev/null

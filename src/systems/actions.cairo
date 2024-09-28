@@ -246,7 +246,9 @@ mod Brewmaster {
                 'Invalid manager signature'
             );
 
-            let proof: ManagerSignature = get!(world, get_contract_address(), (ManagerSignature));
+            let proof: ManagerSignature = get!(
+                world, (get_contract_address(), msgHash), (ManagerSignature)
+            );
             assert(!proof.isUsed, 'Signature is used');
             set!(
                 world, (ManagerSignature { system: get_contract_address(), msgHash, isUsed: true })

@@ -12,5 +12,5 @@ export OWNER_PK=0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68
 export INIT_PRICE_INCREASE_TABLE=200;
 export INIT_PRICE_INCREASE_STOOL=50;
 
-sozo execute --world $WORLD_ADDRESS $SYSTEM_ADDRESS updateUpgradePrice -c $INIT_PRICE_INCREASE_TABLE,$INIT_PRICE_INCREASE_STOOL --account-address $OWNER_ADDRESS --private-key $OWNER_PK --wait
+sozo execute --world $WORLD_ADDRESS $SYSTEM_ADDRESS updateUpgradePrice -c $INIT_PRICE_INCREASE_TABLE,0,$INIT_PRICE_INCREASE_STOOL,0 --rpc-url $RPC_URL --account-address $OWNER_ADDRESS --private-key $OWNER_PK --wait
 echo "Update new upgrade price success."

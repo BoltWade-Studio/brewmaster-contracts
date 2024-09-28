@@ -1000,12 +1000,12 @@
       }
     ],
     "address": "0x354caaf9bd19f0a44a3d9301458f404fad4b676bd3f879c09b215c5ec66418b",
-    "transaction_hash": "0x338bc7fe1984f2fe8aa8ada6a203bee5a23a4cf9222b98d914cc2b2ac132294",
-    "block_number": 3,
+    "transaction_hash": "0x35a8dbf9f79999d9ab8f6882673797a0db85e854f721caf985a115fea291dfd",
+    "block_number": 743856,
     "seed": "brewmaster",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "http://localhost:5050/"
+      "rpc_url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7"
     },
     "name": "dojo::world::world"
   },
@@ -1020,8 +1020,8 @@
     {
       "kind": "DojoContract",
       "address": "0x76f7bf89ee554e8e182be67600e006fc543339f6074d04ce5c86515525539bd",
-      "class_hash": "0x7bfcece8b9fd12bf3db2b0c4c12e3a9bbc574870695de3470e567c3a4b2a297",
-      "original_class_hash": "0x7bfcece8b9fd12bf3db2b0c4c12e3a9bbc574870695de3470e567c3a4b2a297",
+      "class_hash": "0x5264c6c0592736791c46c23f3de88acdc3e59e4c36b072a3f06647be324f107",
+      "original_class_hash": "0x5264c6c0592736791c46c23f3de88acdc3e59e4c36b072a3f06647be324f107",
       "base_class_hash": "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46",
       "abi": [
         {
@@ -1189,6 +1189,22 @@
             },
             {
               "type": "function",
+              "name": "updateUpgradePrice",
+              "inputs": [
+                {
+                  "name": "addTablePrice",
+                  "type": "core::integer::u256"
+                },
+                {
+                  "name": "addStoolPrice",
+                  "type": "core::integer::u256"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
               "name": "createPub",
               "inputs": [],
               "outputs": [],
@@ -1271,6 +1287,33 @@
               "outputs": [
                 {
                   "type": "brewmaster::models::manager::MaxScale"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "getPriceForAddTable",
+              "inputs": [
+                {
+                  "name": "player",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::integer::u256"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "getPriceForAddStool",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u256"
                 }
               ],
               "state_mutability": "view"
@@ -1810,7 +1853,7 @@
         {
           "name": "msgHash",
           "type": "felt252",
-          "key": false
+          "key": true
         },
         {
           "name": "isUsed",
@@ -1818,8 +1861,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x73c5a825870828e8c900aca029a1d942dab512227f45623d1b94f884d42c6ee",
-      "original_class_hash": "0x73c5a825870828e8c900aca029a1d942dab512227f45623d1b94f884d42c6ee",
+      "class_hash": "0x40d168ceeb44cdc3a1451700be79170bb13f2229c2e36470eb1f03df86a643d",
+      "original_class_hash": "0x40d168ceeb44cdc3a1451700be79170bb13f2229c2e36470eb1f03df86a643d",
       "abi": [
         {
           "type": "impl",
@@ -2973,6 +3016,410 @@
         }
       ],
       "name": "brewmaster::models::manager::system_manager"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "system",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "addTablePrice",
+          "type": "u256",
+          "key": false
+        },
+        {
+          "name": "addStoolPrice",
+          "type": "u256",
+          "key": false
+        }
+      ],
+      "class_hash": "0x7c9c5ed91dc4e767434dd2a6ffb5c52cd14b486fb1d2a47579ba67de6ff69",
+      "original_class_hash": "0x7c9c5ed91dc4e767434dd2a6ffb5c52cd14b486fb1d2a47579ba67de6ff69",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::database::introspect::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::database::introspect::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::database::introspect::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::database::introspect::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::database::introspect::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::database::introspect::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::database::introspect::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::database::introspect::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::database::introspect::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::database::introspect::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::database::introspect::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::database::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::database::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::database::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::database::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::database::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::database::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::database::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::database::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::database::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::database::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::database::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::database::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::database::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::database::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::database::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::database::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::database::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::database::introspect::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::database::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "upgrade_pub_priceImpl",
+          "interface_name": "brewmaster::models::manager::Iupgrade_pub_price"
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "brewmaster::models::manager::UpgradePubPrice",
+          "members": [
+            {
+              "name": "system",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "addTablePrice",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "addStoolPrice",
+              "type": "core::integer::u256"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "brewmaster::models::manager::Iupgrade_pub_price",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "brewmaster::models::manager::UpgradePubPrice"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "brewmaster::models::manager::upgrade_pub_price::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "name": "brewmaster::models::manager::upgrade_pub_price"
     }
   ]
 }

@@ -13,6 +13,7 @@ pub struct SystemManager {
 pub struct ManagerSignature {
     #[key]
     pub system: ContractAddress,
+    #[key]
     pub msgHash: felt252,
     pub isUsed: bool,
 }
@@ -27,7 +28,7 @@ pub struct MaxScale {
     pub maxStool: u16,
 }
 
-#[derive(Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
 #[dojo::model]
 pub struct UpgradePubPrice {
     #[key]

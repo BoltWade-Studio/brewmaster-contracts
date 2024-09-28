@@ -164,6 +164,22 @@
       },
       {
         "type": "function",
+        "name": "updateUpgradePrice",
+        "inputs": [
+          {
+            "name": "addTablePrice",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "addStoolPrice",
+            "type": "core::integer::u256"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
         "name": "createPub",
         "inputs": [],
         "outputs": [],
@@ -246,6 +262,33 @@
         "outputs": [
           {
             "type": "brewmaster::models::manager::MaxScale"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "getPriceForAddTable",
+        "inputs": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::integer::u256"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "getPriceForAddStool",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::integer::u256"
           }
         ],
         "state_mutability": "view"
